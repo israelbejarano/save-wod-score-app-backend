@@ -1,6 +1,7 @@
 require('./config/config');
 
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // crear el servidor express
@@ -35,6 +36,16 @@ app.put('/usuario/:id', (req, res) => {
 
 app.delete('/usuario', (req, res) => {
     res.json('delete usuario');
+});
+
+mongoose.connect('mongodb://localhost:27017/my-wod-diary', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}, (err, res) => {
+    if (err) throw err;
+    console.log('base de datos ONLINE');
 });
 
 app.listen(process.env.PORT, () => {
