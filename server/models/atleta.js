@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 let Schema = mongoose.Schema;
 
@@ -9,6 +10,7 @@ let atletaSchema = new Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: [true, 'El correo es obligatorio']
     }, // viene del usuario
     img: {
@@ -32,6 +34,8 @@ let atletaSchema = new Schema({
         required: false
     }
 });
+
+atletaSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
 
 
 module.exports = mongoose.model('Atleta', atletaSchema);
