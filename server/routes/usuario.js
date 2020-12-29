@@ -1,4 +1,7 @@
 const express = require('express');
+const Usuario = require('../models/usuario');
+const Atleta = require('../models/atleta');
+
 const app = express();
 // rutas
 app.get('/usuario', (req, res) => {
@@ -7,9 +10,43 @@ app.get('/usuario', (req, res) => {
 
 app.post('/usuario', (req, res) => {
     let body = req.body;
-    res.json({
-        body
+
+    let atleta = new Atleta({
+        email: body.email
     });
+
+    let usuario = new Usuario({
+        email: body.email,
+        password: body.password,
+        atleta: atleta
+    });
+
+    /* atleta.save((err, atletaDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+            atleta: atletaDB
+        });
+    }); */
+
+    usuario.save((err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        });
+    });
+
 });
 
 app.put('/usuario/:id', (req, res) => {
