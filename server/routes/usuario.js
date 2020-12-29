@@ -21,18 +21,6 @@ app.post('/usuario', (req, res) => {
         atleta: atleta
     });
 
-    /* atleta.save((err, atletaDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
-        res.json({
-            ok: true,
-            atleta: atletaDB
-        });
-    }); */
 
     usuario.save((err, usuarioDB) => {
         if (err) {
@@ -41,10 +29,23 @@ app.post('/usuario', (req, res) => {
                 err
             });
         }
-        res.json({
+        atleta.save((err, atletaDB) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.json({
+                ok: true,
+                usuario: usuarioDB,
+                // atleta: atletaDB no hace falta porque el usuario devuelve el atleta entero
+            });
+        });
+        /* res.json({
             ok: true,
             usuario: usuarioDB
-        });
+        }); */
     });
 
 });
